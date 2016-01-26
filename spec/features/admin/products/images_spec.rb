@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Product Images', type: :feature, js: true do
+  stub_authorization!
+
   let(:user) { create(admin_user) }
 
   let(:file_path) { Rails.root + '../../spec/fixtures/thinking-cat.jpg' }
@@ -25,15 +27,15 @@ RSpec.describe 'Product Images', type: :feature, js: true do
         check other_variant.option_values.first.presentation
 
         click_button "Update"
-        page.should have_content("successfully created!")
+        expect(page).to have_content("successfully created!")
 
-        within("table.index") do
+        within("table.table") do
           # Make sure we have an image for each variant
-          page.should have_css("tbody tr", :count => 2)
+          expect(page).to have_css("tbody tr", :count => 2)
 
           # Make sure we are listing variants with images
           within("thead") do
-            page.should have_content("VARIANT")
+            expect(page).to have_content("VARIANT")
           end
         end
       end
@@ -51,22 +53,15 @@ RSpec.describe 'Product Images', type: :feature, js: true do
           end
 
           click_button "Update"
-          page.should have_content("successfully created!")
+          expect(page).to have_content("successfully created!")
 
-          within("table.index") do
-            page.should have_css('tbody tr', :count => 1)
-            page.should have_content('All')
+          within("table.table") do
+            expect(page).to have_css('tbody tr', :count => 1)
+            expect(page).to have_content('All')
           end
         end
       end
 
-      it 'should not allow user upload image if at least one of all option types is checked' do
-        visit spree.admin_product_images_path(product)
-        click_link "new_image_link"
-        attach_file('image_attachment', file_path)
-
-        page.should have_content('One Option Per Type Must Be Selected')
-      end
     end
 
     describe 'update an image'
@@ -80,19 +75,19 @@ RSpec.describe 'Product Images', type: :feature, js: true do
       click_link "new_image_link"
       attach_file('image_attachment', file_path)
       click_button "Update"
-      page.should have_content("successfully created!")
+      expect(page).to have_content("successfully created!")
 
-      within("table.index") do
+      within("table.table") do
         #ensure no duplicate images are displayed
-        page.should have_css("tbody tr", :count => 1)
+        expect(page).to have_css("tbody tr", :count => 1)
 
         #ensure variant header is not displayed
         within("thead") do
-          page.should_not have_content("Variant")
+          expect(page).to_not have_content("Variant")
         end
 
         #ensure correct cell count
-        page.should have_css("thead th", :count => 3)
+        expect(page).to have_css("thead th", :count => 3)
       end
     end
   end

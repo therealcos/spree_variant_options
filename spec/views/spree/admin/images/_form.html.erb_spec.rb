@@ -4,10 +4,7 @@ describe 'spree/admin/images/_form.html.erb' do
   let(:product) { create(:product) }
 
   before do
-    view.stub_chain(:f, :label) { 'A label' }
-    view.stub_chain(:f, :file_field) { 'A file field' }
-    view.stub_chain(:f, :text_area) { 'A text area' }
-    assign(:product, product)
+    assigns(:product).to be(product)
   end
 
   context 'product has variants' do
@@ -20,17 +17,17 @@ describe 'spree/admin/images/_form.html.erb' do
 
     it 'shows an \'All\' checkbox with the product master variant id as value' do
       render
-      rendered.should include("<input id=\"master_option\" name=\"master_option\" type=\"checkbox\" value=\"1\" />")
-      rendered.should include("<label for=\"master_option\">All</label>")
+      expect(rendered).to include("<input id=\"master_option\" name=\"master_option\" type=\"checkbox\" value=\"1\" />")
+      expect(rendered).to include("<label for=\"master_option\">All</label>")
     end
 
     it 'shows checkboxes for selecting which variants will receive the uploaded image' do
       render
       product.option_types.each do |ot|
-        rendered.should include("option_type_#{ot.id}")
+        expect(rendered).to include("option_type_#{ot.id}")
       end
       product.option_values.each do |ov|
-        rendered.should include("image[viewable_id][#{ov.id}]")
+        expect(rendered).to include("image[viewable_id][#{ov.id}]")
       end
     end
   end
@@ -41,13 +38,13 @@ describe 'spree/admin/images/_form.html.erb' do
     before do
       assign(:grouped_option_values, {})
       assign(:variants, variants)
-      view.stub_chain(:f, :select) { 'A select' }
+      allow(view).to receive_message_chain(:f, :select) { 'A select' }
     end
 
     it 'shows a select with a single option' do
       render
-      rendered.should_not include('option_type')
-      rendered.should include('A select')
+      expect(rendered).to_not include('option_type')
+      expect(rendered).to include('A select')
     end
   end
 end
