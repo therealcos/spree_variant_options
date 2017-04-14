@@ -193,8 +193,8 @@ function VariantOptions(params) {
       $('#variant_id, form[data-form-type="variant"] input[name$="[variant_id]"]').val(variant.id);
       $('#product-price .price').removeClass('unselected').text(variant.price);
       if (variant.in_stock)
-        $('#cart-form button[type=submit]').attr('disabled', false).fadeTo(100, 1);
-      $('form[data-form-type="variant"] button[type=submit]').attr('disabled', false).fadeTo(100, 1);
+        $('#cart-form button[type=submit]').attr('disabled', false).removeClass('disabled-cart');
+      $('form[data-form-type="variant"] button[type=submit]').attr('disabled', false).removeClass('disabled-cart');
       try {
         show_variant_images(variant.id);
       } catch(error) {
