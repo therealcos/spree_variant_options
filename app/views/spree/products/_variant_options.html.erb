@@ -27,6 +27,14 @@
     <%= hidden_field_tag "products[#{@product.id}]", "", :id => "variant_id", :class => "hidden" %>
     <%= hidden_field_tag :variant_id, "", :class => "hidden" %>
     
+    <%  variant_prices = []
+        @product.variants.each do |variant| 
+          variant_prices << variant.price.amount
+        end 
+        variant_prices = variant_prices.uniq.sort
+        prices_string = variant_prices.length > 1 ? "$#{variant_prices.first}-#{variant_prices.last}" : "$#{variant_prices.first}"
+        %>
+
     <script type="text/javascript">
     //<![CDATA[
       var variant_options = new VariantOptions({
@@ -34,7 +42,7 @@
         track_inventory_levels: <%==  !!Spree::Config[:track_inventory_levels] -%>,
         allow_select_outofstock: <%== !!SpreeVariantOptions::VariantConfig[:allow_select_outofstock] -%>,
         default_instock: <%== !!SpreeVariantOptions::VariantConfig[:default_instock] -%>,
-        i18n: <%== {:out_of_stock => Spree.t(:out_of_stock), :variant_options_select => Spree.t(:variant_options_select) }.to_json -%>
+        i18n: <%== {:out_of_stock => Spree.t(:out_of_stock), :variant_options_select => prices_string }.to_json -%>
       });
       $(function() {
         url = $.urlParam('<%=SpreeVariantOptions::VariantConfig.main_option_type_label%>')
