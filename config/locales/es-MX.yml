@@ -3,6 +3,6 @@ es-Mx:
     preview: Previsualización
     attach: Anexar
     detach_image: Remover Imágen
-    select_a: "%{name}"
+    select_a: "%{name}: "
     variant_options_select: Selecciona una opción
     one_option_per_type_must_be_selected: Usted requiere seleccionar al menos una opción
