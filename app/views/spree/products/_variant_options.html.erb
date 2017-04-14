@@ -32,7 +32,7 @@
           variant_prices << variant.price
         end 
         variant_prices = variant_prices.uniq.sort
-        prices_string = variant_prices.length > 1 ? "#{display_price(variant_prices.first)} - #{display_price(variant_prices.last)}" : "#{display_price(variant_prices.first)}"
+        prices_string = variant_prices.length > 1 ? "$#{variant_prices.first.round} - #{variant_prices.last.round}" : "$#{variant_prices.first.round}"
         %>
 
     <script type="text/javascript">
