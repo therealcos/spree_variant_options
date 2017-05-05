@@ -33,7 +33,6 @@
         end 
         variant_prices = variant_prices.uniq.sort
         prices_string = variant_prices.length > 1 ? "$#{variant_prices.first.round} - $#{variant_prices.last.round}" : "$#{variant_prices.first.round}"
-        prices_string << "<br><span class='select-option'>(#{Spree.t(:variant_options_select)})</span>"
         %>
 
     <script type="text/javascript">
